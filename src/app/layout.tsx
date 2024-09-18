@@ -1,6 +1,7 @@
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import NextTopLoader from "nextjs-toploader";
 import "./globals.css";
 
 const geistSans = localFont({
@@ -35,6 +36,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+          <NextTopLoader color="#10B981" />
           {children}
         </ThemeProvider>
       </body>
