@@ -4,8 +4,8 @@ import Link from "next/link";
 
 export default function Content() {
   return (
-    <div>
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 mt-6">
+    <>
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 mt-6 mb-6">
         {movies.map((movie, i) => (
           <>
             <Link
@@ -43,6 +43,6 @@ export default function Content() {
           </>
         ))}
       </div>
-    </div>
+    </>
   );
 }
