@@ -9,11 +9,10 @@ export default function WithLayout({
     <section>
       <div className="flex">
         <Sidebar />
-        <div className="dark:bg-[#262525] w-full">
-          <div className="flex-1">
-            <div className="bg-white dark:bg-[#262525] dark:text-white rounded-lg p-4">
-              {children}
-            </div>
+
+        <div className="flex-1 md:ml-40">
+          <div className="bg-white md:h-screen dark:bg-[#262525] dark:text-white p-4">
+            {children}
           </div>
         </div>
       </div>

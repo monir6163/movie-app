@@ -1,7 +1,19 @@
+import { Button } from "@/components/ui/button";
 import Image from "next/image";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export default function MovieDetails({ movieData }: any) {
+interface MovieDetailsProps {
+  movieData?: {
+    id: number;
+    title: string;
+    year: number;
+    genres: string[];
+    poster: string;
+    type: string;
+  };
+}
+
+export default function MovieDetails({ movieData }: MovieDetailsProps) {
+  if (!movieData) return null;
   return (
     <div className="mt-5">
       <div className="flex flex-col md:flex-row gap-3">
@@ -11,7 +23,7 @@ export default function MovieDetails({ movieData }: any) {
             alt={movieData.title}
             width={300}
             height={400}
-            className="rounded-lg w-full object-cover"
+            className="rounded w-full object-cover"
           />
         </div>
         <div className="w-full md:w-2/3">
@@ -21,7 +33,7 @@ export default function MovieDetails({ movieData }: any) {
           <p className="mt-3 mb-3 text-green-500">
             {movieData.genres.join(" . ")}
           </p>
-          <p>
+          <p className="text-justify">
             Madaket Beach. The Otis-Winbury wedding promises to be an event to
             remember: the grooms wealthy parents have spared no expense to host
             a lavish ceremony at their oceanfront estate. But it will be
@@ -33,10 +45,16 @@ export default function MovieDetails({ movieData }: any) {
             he discovers that every wedding is a minefield--and no couple is
             perfect.
           </p>
-          <div className="mt-5">
-            <button className="bg-blue-500 text-white px-4 py-2 rounded-lg">
+          <div className="mt-5 flex flex-col md:flex-row gap-5">
+            <Button variant="default" disabled>
               Watch Now
-            </button>
+            </Button>
+
+            <div className="flex flex-col md:flex-row gap-5 mb-5">
+              <Button variant="default">Button 1</Button>
+              <Button variant="default">Button 2</Button>
+              <Button variant="default">Button 3</Button>
+            </div>
           </div>
         </div>
       </div>

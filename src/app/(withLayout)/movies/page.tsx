@@ -1,4 +1,4 @@
-import MoviesContent from "@/components/mainContent/MoviesContent";
+import MoviesContent from "@/components/movies/MoviesContent";
 
 export default function MoviesPage() {
   return (
