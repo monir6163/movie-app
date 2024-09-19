@@ -11,7 +11,7 @@ export default function Content() {
             <Link
               href={`/movies/${movie.id}`}
               key={i}
-              className="cursor-pointer hover:shadow-lg hover:text-green-500"
+              className="cursor-pointer border hover:border rounded hover:border-green-600 hover:shadow-lg hover:text-green-500"
             >
               <div className="dark:bg-[#171615 ] rounded overflow-hidden">
                 <Image
@@ -19,7 +19,7 @@ export default function Content() {
                   alt="Movie Poster"
                   width={150}
                   height={225}
-                  className="w-full h-64 object-cover hover:border-2 border-green-500"
+                  className="w-full h-64 object-cover"
                 />
                 <div className="p-1">
                   <h3 className="text-lg">
