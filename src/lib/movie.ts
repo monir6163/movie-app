@@ -6,6 +6,11 @@ export const movies = [
     genres: ["Horror", "Fantasy", "Comedy"],
     poster: "https://via.placeholder.com/150",
     type: "trending",
+    link: [
+      "https://fbdownhub.com/",
+      "https://www.youtube.com/",
+      "https://www.facebook.com/",
+    ],
   },
   {
     id: 2,
@@ -30,6 +35,11 @@ export const movies = [
     genres: ["Sci-fi", "Adventure", "Comedy"],
     poster: "https://via.placeholder.com/150",
     type: "trending",
+    link: [
+      "https://fbdownhub.com/",
+      "https://www.youtube.com/",
+      "https://www.facebook.com/",
+    ],
   },
   {
     id: 5,

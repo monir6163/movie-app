@@ -1,5 +1,8 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import Link from "next/link";
+import { useState } from "react";
 
 interface MovieDetailsProps {
   movieData?: {
@@ -7,13 +10,25 @@ interface MovieDetailsProps {
     title: string;
     year: number;
     genres: string[];
+    link?: string[];
     poster: string;
     type: string;
   };
 }
 
 export default function MovieDetails({ movieData }: MovieDetailsProps) {
+  const [buttonStates, setButtonStates] = useState(
+    new Array(movieData?.link?.length).fill(false)
+  );
+  const handleButtonClick = (index: number) => {
+    const updatedStates = [...buttonStates];
+    updatedStates[index] = true;
+    setButtonStates(updatedStates);
+  };
+  const areAllButtonsClicked = buttonStates.every((state) => state);
+
   if (!movieData) return null;
+
   return (
     <div className="mt-5">
       <div className="flex flex-col md:flex-row gap-3">
@@ -46,14 +61,29 @@ export default function MovieDetails({ movieData }: MovieDetailsProps) {
             perfect.
           </p>
           <div className="mt-5 flex flex-col md:flex-row gap-5">
-            <Button variant="default" disabled>
+            {/* Watch Now Button */}
+            <Button variant="default" disabled={!areAllButtonsClicked}>
               Watch Now
             </Button>
 
+            {/* Buttons for each link */}
             <div className="flex flex-col md:flex-row gap-5 mb-5">
-              <Button variant="default">Button 1</Button>
-              <Button variant="default">Button 2</Button>
-              <Button variant="default">Button 3</Button>
+              {movieData?.link?.map((link, index) => (
+                <Link
+                  key={index}
+                  href={link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={buttonStates[index] ? "hidden" : ""}
+                >
+                  <Button
+                    className={buttonStates[index] ? "bg-green-500" : ""}
+                    onClick={() => handleButtonClick(index)}
+                  >
+                    Button {index + 1}
+                  </Button>
+                </Link>
+              ))}
             </div>
           </div>
         </div>
