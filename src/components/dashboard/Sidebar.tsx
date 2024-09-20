@@ -25,7 +25,6 @@ export default function Sidebar() {
       <div className="hidden md:flex w-64 h-screen border-r flex-col">
         {/* Logo */}
         <div className="p-4 flex items-center justify-between">
-          {" "}
           <h1 className="text-2xl font-bold">Admin</h1>
           <ModeToggle />
         </div>
@@ -52,21 +51,17 @@ export default function Sidebar() {
 
       <Sheet open={isOpen} onOpenChange={setIsOpen}>
         <SheetTrigger asChild>
-          <div className="flex items-center justify-between">
-            <Button variant="outline" size="icon" className="md:hidden m-4">
-              <Menu />
-            </Button>
-            <div className="m-4 block md:hidden lg:hidden">
-              <ModeToggle />
-            </div>
-          </div>
+          <Button variant="outline" size="icon" className="md:hidden m-4">
+            <Menu />
+          </Button>
         </SheetTrigger>
         <SheetContent
           side="left"
           className="p-0 flex flex-col justify-center w-64 bg-white dark:bg-[#262525]"
         >
-          <div className="p-4">
+          <div className="p-4 flex items-center gap-4">
             <h1 className="text-xl font-bold dark:text-green-500">Movie App</h1>
+            <ModeToggle />
           </div>
           <nav className="my-8 px-2 flex flex-col justify-between h-full">
             <div>
