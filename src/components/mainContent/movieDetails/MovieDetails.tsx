@@ -3,16 +3,15 @@ import {
   AlertDialog,
   AlertDialogContent,
   AlertDialogDescription,
-  AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { AlertDialogCancel } from "@radix-ui/react-alert-dialog";
 import { PlayCircle } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 interface MovieDetailsProps {
@@ -29,6 +28,7 @@ interface MovieDetailsProps {
 }
 
 export default function MovieDetails({ movieData }: MovieDetailsProps) {
+  const router = useRouter();
   const [buttonStates, setButtonStates] = useState(
     new Array(movieData?.link?.length || 3).fill(false)
   );
@@ -159,18 +159,21 @@ export default function MovieDetails({ movieData }: MovieDetailsProps) {
                     </a>
 
                     <button
-                      onClick={() => window.location.reload()}
+                      onClick={() => router.push("/movies")}
                       className="bg-red-500 text-white px-3 py-2 rounded mt-3"
                     >
-                      Close
+                      More Movies
                     </button>
                   </>
                 )}
                 {progress !== 100 && countdown === 0 && (
                   <>
-                    <AlertDialogFooter>
-                      <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    </AlertDialogFooter>
+                    <button
+                      onClick={() => router.push("/movies")}
+                      className="bg-red-500 text-white px-3 py-2 rounded mt-3"
+                    >
+                      More Movies
+                    </button>
                   </>
                 )}
               </AlertDialogContent>
