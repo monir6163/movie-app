@@ -47,7 +47,7 @@ export default function MovieDetails({ movieData }: MovieDetailsProps) {
     const handleBeforeUnload = () => {
       localStorage.removeItem(localStorageKey);
     };
-    window.addEventListener("beforeunload", handleBeforeUnload);
+    // window.addEventListener("beforeunload", handleBeforeUnload);
 
     return () => {
       window.removeEventListener("beforeunload", handleBeforeUnload);
