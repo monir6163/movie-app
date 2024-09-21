@@ -80,15 +80,11 @@ export default function MovieDetails({ movieData }: MovieDetailsProps) {
           />
           <div className="absolute top-0 right-0 left-0 bottom-0 bg-black bg-opacity-50 flex items-center justify-center gap-3">
             <AlertDialog>
-              {movieData?.movie_d_link ||
-                (movieData?.link && (
-                  <AlertDialogTrigger>
-                    <PlayCircle
-                      size={64}
-                      className=" animate-pulse text-white"
-                    />
-                  </AlertDialogTrigger>
-                ))}
+              {movieData?.link && (
+                <AlertDialogTrigger>
+                  <PlayCircle size={64} className=" animate-pulse text-white" />
+                </AlertDialogTrigger>
+              )}
               <AlertDialogContent
                 className=" bg-gray-600 text-white
                 dark:bg-gray-800 dark:text-gray-200 text-wrap text-center"
