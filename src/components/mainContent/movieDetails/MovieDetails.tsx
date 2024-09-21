@@ -29,6 +29,8 @@ interface MovieDetailsProps {
 
 export default function MovieDetails({ movieData }: MovieDetailsProps) {
   const router = useRouter();
+  const localStorageKey = `buttonStates_${movieData?.id}`;
+
   const [buttonStates, setButtonStates] = useState(
     new Array(movieData?.link?.length || 3).fill(false)
   );
@@ -36,10 +38,29 @@ export default function MovieDetails({ movieData }: MovieDetailsProps) {
   const [countdown, setCountdown] = useState(0); // 30-second countdown timer
   const [startCountdown, setStartCountdown] = useState(false); // To start the countdown only when all buttons are clicked
 
+  // Load button states from localStorage when the component mounts
+  useEffect(() => {
+    const savedStates = localStorage.getItem(localStorageKey);
+    if (savedStates) {
+      setButtonStates(JSON.parse(savedStates));
+    }
+
+    // Clear localStorage on browser close/tab close
+    const handleBeforeUnload = () => {
+      localStorage.removeItem(localStorageKey);
+    };
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, [localStorageKey]);
+
   const handleButtonClick = (index: number) => {
     const updatedStates = [...buttonStates];
     updatedStates[index] = true;
     setButtonStates(updatedStates);
+    localStorage.setItem(localStorageKey, JSON.stringify(updatedStates)); // Save the new state to localStorage
   };
 
   // Calculate progress as a percentage based on the number of buttons clicked
@@ -64,6 +85,12 @@ export default function MovieDetails({ movieData }: MovieDetailsProps) {
       return () => clearInterval(timer);
     }
   }, [countdown, startCountdown]);
+
+  // Clear localStorage when clicking "More Movies" button
+  const handleMoreMoviesClick = () => {
+    localStorage.removeItem(localStorageKey); // Clear specific movie data
+    router.push("/movies"); // Redirect to the movies page
+  };
 
   if (!movieData) return null;
 
@@ -159,7 +186,7 @@ export default function MovieDetails({ movieData }: MovieDetailsProps) {
                     </a>
 
                     <button
-                      onClick={() => router.push("/movies")}
+                      onClick={handleMoreMoviesClick} // More movies click handler
                       className="bg-red-500 text-white px-3 py-2 rounded mt-3"
                     >
                       More Movies
@@ -169,7 +196,7 @@ export default function MovieDetails({ movieData }: MovieDetailsProps) {
                 {progress !== 100 && countdown === 0 && (
                   <>
                     <button
-                      onClick={() => router.push("/movies")}
+                      onClick={handleMoreMoviesClick} // More movies click handler
                       className="bg-red-500 text-white px-3 py-2 rounded mt-3"
                     >
                       More Movies
