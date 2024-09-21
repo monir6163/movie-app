@@ -37,22 +37,6 @@ export default function MovieDetails({ movieData }: MovieDetailsProps) {
   const [progress, setProgress] = useState(0);
   const [countdown, setCountdown] = useState(0);
   const [startCountdown, setStartCountdown] = useState(false);
-  const [isFacebookApp, setIsFacebookApp] = useState(false);
-
-  useEffect(() => {
-    // Ensure this only runs on the client-side
-    if (typeof window !== "undefined") {
-      const userAgent = navigator.userAgent || navigator.vendor;
-      const isFB = userAgent.includes("FBAN") || userAgent.includes("FBAV");
-
-      if (isFB) {
-        setIsFacebookApp(true);
-        alert(
-          "You are using Facebook's in-app browser. Please open this page in Chrome for a better experience."
-        );
-      }
-    }
-  }, []); // Empty array means this effect runs only once after component mounts
 
   useEffect(() => {
     const savedStates = localStorage.getItem(localStorageKey);
@@ -103,17 +87,6 @@ export default function MovieDetails({ movieData }: MovieDetailsProps) {
   };
 
   if (!movieData) return null;
-
-  if (isFacebookApp) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <p className="text-center">
-          You are using Facebooks in-app browser. Please open this page in
-          Chrome for a better experience.
-        </p>
-      </div>
-    );
-  }
 
   return (
     <div className="mt-5">
