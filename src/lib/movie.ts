@@ -4,13 +4,16 @@ export const movies = [
     title: "Beetlejuice Beetlejuice",
     year: 2024,
     genres: ["Horror", "Fantasy", "Comedy"],
-    poster: "https://via.placeholder.com/150",
+    poster:
+      "https://img.icdn.my.id/thumb/w_160/h_240/fight-night-the-million-dollar-heist-season-1-1630857574.webp",
     type: "trending",
     link: [
       "https://fbdownhub.com/",
       "https://www.youtube.com/",
       "https://www.facebook.com/",
     ],
+    movie_d_link:
+      "https://img.icdn.my.id/thumb/w_160/h_240/fight-night-the-million-dollar-heist-season-1-1630857574.webp",
   },
   {
     id: 2,
