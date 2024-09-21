@@ -10,7 +10,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { PlayCircle } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -34,18 +33,16 @@ export default function MovieDetails({ movieData }: MovieDetailsProps) {
   const [buttonStates, setButtonStates] = useState(
     new Array(movieData?.link?.length || 3).fill(false)
   );
-  const [progress, setProgress] = useState(0); // To track button clicks percentage
-  const [countdown, setCountdown] = useState(0); // 30-second countdown timer
-  const [startCountdown, setStartCountdown] = useState(false); // To start the countdown only when all buttons are clicked
+  const [progress, setProgress] = useState(0);
+  const [countdown, setCountdown] = useState(0);
+  const [startCountdown, setStartCountdown] = useState(false);
 
-  // Load button states from localStorage when the component mounts
   useEffect(() => {
     const savedStates = localStorage.getItem(localStorageKey);
     if (savedStates) {
       setButtonStates(JSON.parse(savedStates));
     }
 
-    // Clear localStorage on browser close/tab close
     const handleBeforeUnload = () => {
       localStorage.removeItem(localStorageKey);
     };
@@ -60,23 +57,20 @@ export default function MovieDetails({ movieData }: MovieDetailsProps) {
     const updatedStates = [...buttonStates];
     updatedStates[index] = true;
     setButtonStates(updatedStates);
-    localStorage.setItem(localStorageKey, JSON.stringify(updatedStates)); // Save the new state to localStorage
+    localStorage.setItem(localStorageKey, JSON.stringify(updatedStates));
   };
 
-  // Calculate progress as a percentage based on the number of buttons clicked
   useEffect(() => {
     const clickedButtons = buttonStates.filter((state) => state).length;
     const totalButtons = buttonStates.length;
     setProgress((clickedButtons / totalButtons) * 100);
 
-    // Start countdown when all buttons are clicked
     if (clickedButtons === totalButtons) {
-      setStartCountdown(true); // Enable countdown when all buttons are clicked
-      setCountdown(10); // Start a 30-second countdown
+      setStartCountdown(true);
+      setCountdown(10);
     }
   }, [buttonStates]);
 
-  // Countdown logic
   useEffect(() => {
     if (startCountdown && countdown > 0) {
       const timer = setInterval(() => {
@@ -86,10 +80,21 @@ export default function MovieDetails({ movieData }: MovieDetailsProps) {
     }
   }, [countdown, startCountdown]);
 
-  // Clear localStorage when clicking "More Movies" button
   const handleMoreMoviesClick = () => {
-    localStorage.removeItem(localStorageKey); // Clear specific movie data
-    router.push("/movies"); // Redirect to the movies page
+    localStorage.removeItem(localStorageKey);
+    router.push("/movies");
+  };
+
+  const handleLinkClick = (link: string) => {
+    const isFacebookBrowser =
+      navigator.userAgent.includes("FBAN") ||
+      navigator.userAgent.includes("FBAV");
+    if (isFacebookBrowser) {
+      alert(
+        "To enhance your experience, please open this link in your Chrome browser."
+      );
+    }
+    window.open(link, "_blank", "noopener,noreferrer");
   };
 
   if (!movieData) return null;
@@ -109,13 +114,10 @@ export default function MovieDetails({ movieData }: MovieDetailsProps) {
             <AlertDialog>
               {movieData?.link && (
                 <AlertDialogTrigger>
-                  <PlayCircle size={64} className=" animate-pulse text-white" />
+                  <PlayCircle size={64} className="animate-pulse text-white" />
                 </AlertDialogTrigger>
               )}
-              <AlertDialogContent
-                className=" bg-gray-600 text-white
-                dark:bg-gray-800 dark:text-gray-200 text-wrap text-center"
-              >
+              <AlertDialogContent className="bg-gray-600 text-white dark:bg-gray-800 dark:text-gray-200 text-wrap text-center">
                 <AlertDialogHeader>
                   {progress === 100 && countdown === 0 ? (
                     ""
@@ -150,23 +152,19 @@ export default function MovieDetails({ movieData }: MovieDetailsProps) {
                 ) : (
                   <div className="flex flex-col md:flex-row gap-3 mt-5">
                     {movieData.link?.map((link, index) => (
-                      <Link
-                        href={link}
+                      <Button
                         key={index}
-                        target="_blank"
-                        rel="noreferrer noopener"
-                        className={`${
+                        onClick={() => {
+                          handleLinkClick(link);
+                          handleButtonClick(index);
+                        }}
+                        disabled={buttonStates[index]}
+                        className={`w-full ${
                           buttonStates[index] ? "pointer-events-none" : ""
                         }`}
                       >
-                        <Button
-                          onClick={() => handleButtonClick(index)}
-                          disabled={buttonStates[index]}
-                          className="w-full"
-                        >
-                          Visit Link {index + 1}
-                        </Button>
-                      </Link>
+                        Visit Link {index + 1}
+                      </Button>
                     ))}
                   </div>
                 )}
@@ -175,9 +173,8 @@ export default function MovieDetails({ movieData }: MovieDetailsProps) {
                     <p className="mt-3">
                       You have successfully completed the task. Thank you!
                     </p>
-                    {/* download button */}
                     <a
-                      href={movieData?.movie_d_link} // Set the download link
+                      href={movieData?.movie_d_link}
                       download
                       target="_blank"
                       className="bg-green-500 text-white px-3 py-2 rounded mt-3"
@@ -186,7 +183,7 @@ export default function MovieDetails({ movieData }: MovieDetailsProps) {
                     </a>
 
                     <button
-                      onClick={handleMoreMoviesClick} // More movies click handler
+                      onClick={handleMoreMoviesClick}
                       className="bg-red-500 text-white px-3 py-2 rounded mt-3"
                     >
                       More Movies
@@ -196,7 +193,7 @@ export default function MovieDetails({ movieData }: MovieDetailsProps) {
                 {progress !== 100 && countdown === 0 && (
                   <>
                     <button
-                      onClick={handleMoreMoviesClick} // More movies click handler
+                      onClick={handleMoreMoviesClick}
                       className="bg-red-500 text-white px-3 py-2 rounded mt-3"
                     >
                       More Movies
