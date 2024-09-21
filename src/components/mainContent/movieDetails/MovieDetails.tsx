@@ -34,25 +34,16 @@ export default function MovieDetails({ movieData }: MovieDetailsProps) {
   const [buttonStates, setButtonStates] = useState(
     new Array(movieData?.link?.length || 3).fill(false)
   );
-  const [progress, setProgress] = useState(0); // To track button clicks percentage
-  const [countdown, setCountdown] = useState(0); // 30-second countdown timer
-  const [startCountdown, setStartCountdown] = useState(false); // To start the countdown only when all buttons are clicked
+  const [progress, setProgress] = useState(0);
+  const [countdown, setCountdown] = useState(0);
+  const [startCountdown, setStartCountdown] = useState(false);
 
-  if (
-    navigator.userAgent.includes("FBAN") ||
-    navigator.userAgent.includes("FBAV")
-  ) {
-    window.location.href = `googlechrome://movie-app-123.vercel.app/movies/${movieData?.id}`;
-  }
-
-  // Load button states from localStorage when the component mounts
   useEffect(() => {
     const savedStates = localStorage.getItem(localStorageKey);
     if (savedStates) {
       setButtonStates(JSON.parse(savedStates));
     }
 
-    // Clear localStorage on browser close/tab close
     const handleBeforeUnload = () => {
       localStorage.removeItem(localStorageKey);
     };
@@ -67,23 +58,20 @@ export default function MovieDetails({ movieData }: MovieDetailsProps) {
     const updatedStates = [...buttonStates];
     updatedStates[index] = true;
     setButtonStates(updatedStates);
-    localStorage.setItem(localStorageKey, JSON.stringify(updatedStates)); // Save the new state to localStorage
+    localStorage.setItem(localStorageKey, JSON.stringify(updatedStates));
   };
 
-  // Calculate progress as a percentage based on the number of buttons clicked
   useEffect(() => {
     const clickedButtons = buttonStates.filter((state) => state).length;
     const totalButtons = buttonStates.length;
     setProgress((clickedButtons / totalButtons) * 100);
 
-    // Start countdown when all buttons are clicked
     if (clickedButtons === totalButtons) {
-      setStartCountdown(true); // Enable countdown when all buttons are clicked
-      setCountdown(10); // Start a 30-second countdown
+      setStartCountdown(true);
+      setCountdown(10);
     }
   }, [buttonStates]);
 
-  // Countdown logic
   useEffect(() => {
     if (startCountdown && countdown > 0) {
       const timer = setInterval(() => {
@@ -93,10 +81,9 @@ export default function MovieDetails({ movieData }: MovieDetailsProps) {
     }
   }, [countdown, startCountdown]);
 
-  // Clear localStorage when clicking "More Movies" button
   const handleMoreMoviesClick = () => {
-    localStorage.removeItem(localStorageKey); // Clear specific movie data
-    router.push("/movies"); // Redirect to the movies page
+    localStorage.removeItem(localStorageKey);
+    router.push("/movies");
   };
 
   if (!movieData) return null;
