@@ -24,7 +24,7 @@ interface MovieDetailsProps {
     link?: string[];
     poster: string;
     type: string;
-    movie_d_link: string;
+    movie_d_link?: string;
   };
 }
 
@@ -149,7 +149,7 @@ export default function MovieDetails({ movieData }: MovieDetailsProps) {
                     </p>
                     {/* download button */}
                     <a
-                      href={movieData.movie_d_link} // Set the download link
+                      href={movieData?.movie_d_link} // Set the download link
                       download
                       target="_blank"
                       className="bg-green-500 text-white px-3 py-2 rounded mt-3"
