@@ -38,6 +38,15 @@ export default function MovieDetails({ movieData }: MovieDetailsProps) {
   const [countdown, setCountdown] = useState(0); // 30-second countdown timer
   const [startCountdown, setStartCountdown] = useState(false); // To start the countdown only when all buttons are clicked
 
+  useEffect(() => {
+    if (
+      navigator.userAgent.includes("FBAN") ||
+      navigator.userAgent.includes("FBAV")
+    ) {
+      window.location.href = `https://movie-app-123.vercel.app/movies/${movieData?.id}`;
+    }
+  }, [movieData?.id]);
+
   // Load button states from localStorage when the component mounts
   useEffect(() => {
     const savedStates = localStorage.getItem(localStorageKey);
