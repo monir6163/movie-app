@@ -14,12 +14,14 @@ export default function WithLayout({
       const isFB = userAgent.includes("FBAN") || userAgent.includes("FBAV");
 
       if (isFB) {
-        // message to user to open in browser if they are using the Facebook app. and then redirect them to the browser version of the site if they click ok
-        const openInBrowser = confirm(
-          "You are using the Facebook app. For a better experience, please open this link in your browser."
+        // Check if the user is using the Facebook in-app browser and display a notification
+        const openInBrowser = window.confirm(
+          "It looks like you're using the Facebook app. For a better experience, we recommend opening this link in your default browser. Would you like to open it now?"
         );
+
         if (openInBrowser) {
-          window.open("https://nextjs.org/");
+          // Open the site in the user's default browser
+          window.location.href = "https://nextjs.org/";
         }
       }
     }
