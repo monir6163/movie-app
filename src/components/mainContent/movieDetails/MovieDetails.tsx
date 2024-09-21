@@ -38,32 +38,6 @@ export default function MovieDetails({ movieData }: MovieDetailsProps) {
   const [countdown, setCountdown] = useState(0);
   const [startCountdown, setStartCountdown] = useState(false);
 
-  useEffect(() => {
-    const savedStates = localStorage.getItem(localStorageKey);
-    if (savedStates) {
-      setButtonStates(JSON.parse(savedStates));
-    }
-
-    const sessionKey = "sessionActive";
-
-    const handleBeforeUnload = () => {
-      sessionStorage.setItem(sessionKey, "true");
-      localStorageKey && localStorage.removeItem(localStorageKey);
-    };
-
-    // Check if the session key exists, meaning the session is still active (browser not closed)
-    if (!sessionStorage.getItem(sessionKey)) {
-      localStorage.removeItem(localStorageKey); // Clear local storage when browser is closed
-    }
-
-    // Add the beforeunload event listener to set sessionActive on tab refresh or close
-    window.addEventListener("beforeunload", handleBeforeUnload);
-
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-    };
-  }, [localStorageKey]);
-
   const handleButtonClick = (index: number) => {
     const updatedStates = [...buttonStates];
     updatedStates[index] = true;

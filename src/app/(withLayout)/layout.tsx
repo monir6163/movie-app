@@ -1,10 +1,22 @@
+"use client";
 import Sidebar from "@/components/sidebar/Sidebar";
+import { useEffect } from "react";
 
 export default function WithLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      localStorage.clear();
+    };
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, []);
   return (
     <section>
       <div className="flex">
