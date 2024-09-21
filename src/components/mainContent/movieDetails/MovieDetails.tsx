@@ -42,7 +42,7 @@ export default function MovieDetails({ movieData }: MovieDetailsProps) {
     navigator.userAgent.includes("FBAN") ||
     navigator.userAgent.includes("FBAV")
   ) {
-    window.location.href = `https://movie-app-123.vercel.app/movies/${movieData?.id}`;
+    window.location.href = `googlechrome://movie-app-123.vercel.app/movies/${movieData?.id}`;
   }
 
   // Load button states from localStorage when the component mounts
