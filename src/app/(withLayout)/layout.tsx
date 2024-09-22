@@ -1,5 +1,6 @@
 "use client";
 import Sidebar from "@/components/sidebar/Sidebar";
+import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 
 function useFacebookInAppBrowser() {
@@ -14,6 +15,14 @@ function useFacebookInAppBrowser() {
   }, []);
   return isFacebookBrowser;
 }
+
+const handleCopyCurrentUrl = () => {
+  if (typeof window !== "undefined") {
+    navigator.clipboard.writeText(window.location.href);
+    alert("Link copied to clipboard!");
+  }
+};
+
 export default function WithLayout({
   children,
 }: Readonly<{
@@ -23,16 +32,21 @@ export default function WithLayout({
   return (
     <section>
       {isFacebookBrowser ? (
-        <div className="flex flex-col justify-center items-center h-screen">
-          <p className="text-2xl">
-            Please open the link in your default browser.
-          </p>
+        <div className="flex flex-col text-wrap text-center justify-center items-center h-screen">
+          <div className="border p-2">
+            <p className="text-2xl">
+              Please open the link in your default browser.
+            </p>
 
-          <p className="text-2xl">Facebook in-app browser is not supported.</p>
+            <p className="text-2xl">
+              Facebook in-app browser is not supported.
+            </p>
 
-          <p className="text-2xl">Thank you!</p>
-
-          <a href="googlechrome://movie-app-123.vercel.app/">Open in Chrome</a>
+            <p className="text-2xl">Thank you!</p>
+            <Button onClick={handleCopyCurrentUrl} className="mt-5">
+              Copy Link
+            </Button>
+          </div>
         </div>
       ) : (
         <div className="flex">
