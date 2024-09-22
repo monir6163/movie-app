@@ -1,58 +1,51 @@
 "use client";
 import Sidebar from "@/components/sidebar/Sidebar";
-import Image from "next/image";
-import { useEffect, useState } from "react";
-
-function useFacebookInAppBrowser() {
-  const [isFacebookBrowser, setIsFacebookBrowser] = useState(false);
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const ua = navigator.userAgent || navigator.vendor;
-      if (ua.indexOf("FBAN") > -1 || ua.indexOf("FBAV") > -1) {
-        setIsFacebookBrowser(true);
-      }
-    }
-  }, []);
-  return isFacebookBrowser;
-}
+import { useEffect } from "react";
 
 export default function WithLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const isFacebookBrowser = useFacebookInAppBrowser();
+  const openInBrowser = (target: string, browserScheme: string) => {
+    const ifc = document.createElement("div");
+    ifc.innerHTML = `<iframe src='${browserScheme}${target}' style='width:0;height:0;border:0; border:none;visibility: hidden;'></iframe>`;
+    document.body.appendChild(ifc);
+  };
+
+  const isInApp = (appSpecificUserAgents: string[]) => {
+    const userAgent = navigator.userAgent || navigator.vendor;
+    for (let i = 0; i < appSpecificUserAgents.length; i++) {
+      if (userAgent.indexOf(appSpecificUserAgents[i]) > -1) {
+        return true;
+      }
+    }
+    return false;
+  };
+
+  useEffect(() => {
+    const tryOpenBrowser = () => {
+      if (document.body) {
+        if (isInApp(["FBAN", "FBAV"])) {
+          openInBrowser(window.location.href, "googlechrome://navigate?url=");
+        }
+      } else {
+        window.requestAnimationFrame(tryOpenBrowser);
+      }
+    };
+
+    tryOpenBrowser();
+  }, []); // empty dependency array ensures this runs once on component mount
   return (
     <section>
-      {isFacebookBrowser ? (
-        <div className="flex flex-col text-wrap text-center justify-center items-center h-screen">
-          <div className="border p-2">
-            <p className="text-xl">
-              Please open the link in your default browser (Like: Chrome)
-            </p>
-
-            <p className="text-xl">Facebook in-app browser is not supported.</p>
-
-            <p className="text-xl">Thank you!</p>
-            <Image
-              className="mt-5 object-cover rounded-lg"
-              src={"/b.gif"}
-              width={200}
-              height={200}
-              alt="movie-123"
-            />
+      <div className="flex">
+        <Sidebar />
+        <div className="md:ml-40">
+          <div className="bg-white md:min-h-screen dark:bg-[#262525] dark:text-white p-4">
+            {children}
           </div>
         </div>
-      ) : (
-        <div className="flex">
-          <Sidebar />
-          <div className="md:ml-40">
-            <div className="bg-white md:min-h-screen dark:bg-[#262525] dark:text-white p-4">
-              {children}
-            </div>
-          </div>
-        </div>
-      )}
+      </div>
     </section>
   );
 }
