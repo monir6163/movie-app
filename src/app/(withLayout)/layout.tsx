@@ -1,7 +1,5 @@
 "use client";
 import Sidebar from "@/components/sidebar/Sidebar";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 
 function useFacebookInAppBrowser() {
@@ -34,13 +32,7 @@ export default function WithLayout({
 
           <p className="text-2xl">Thank you!</p>
 
-          <Link
-            href="googlechrome://yourwebsite.com"
-            target="_blank"
-            rel="noreferrer noopener"
-          >
-            <Button className="mt-5">Go back to home</Button>
-          </Link>
+          <a href="googlechrome://movie-app-123.vercel.app/">Open in Chrome</a>
         </div>
       ) : (
         <div className="flex">
