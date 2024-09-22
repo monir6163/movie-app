@@ -1,6 +1,7 @@
 "use client";
 import Sidebar from "@/components/sidebar/Sidebar";
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 
 function useFacebookInAppBrowser() {
@@ -43,6 +44,7 @@ export default function WithLayout({
             <Button onClick={handleCopyCurrentUrl} className="mt-5">
               Copy Link
             </Button>
+            <Image src={"/b.gif"} width={200} height={200} alt="movie-123" />
           </div>
         </div>
       ) : (
