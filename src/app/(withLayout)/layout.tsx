@@ -1,32 +1,45 @@
 "use client";
 import Sidebar from "@/components/sidebar/Sidebar";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+const useFacebookInAppBrowser = () => {
+  const [isFacebookBrowser, setIsFacebookBrowser] = useState(false);
 
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+      if (userAgent.includes("FBAN") || userAgent.includes("FBAV")) {
+        setIsFacebookBrowser(true);
+      }
+    }
+  }, []);
+
+  return isFacebookBrowser;
+};
 export default function WithLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  useEffect(() => {
-    const handleBeforeUnload = () => {
-      localStorage.clear();
-    };
-    window.addEventListener("beforeunload", handleBeforeUnload);
-
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-    };
-  }, []);
+  const isFacebookBrowser = useFacebookInAppBrowser();
   return (
     <section>
-      <div className="flex">
-        <Sidebar />
-        <div className="md:ml-40">
-          <div className="bg-white md:min-h-screen dark:bg-[#262525] dark:text-white p-4">
-            {children}
+      {isFacebookBrowser ? (
+        <div className="open-browser-banner">
+          <p>You're viewing this site in Facebook's in-app browser.</p>
+          <a href={window.location.href} target="_blank">
+            Open in Default Browser
+          </a>
+        </div>
+      ) : (
+        <div className="flex">
+          <Sidebar />
+          <div className="md:ml-40">
+            <div className="bg-white md:min-h-screen dark:bg-[#262525] dark:text-white p-4">
+              {children}
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </section>
   );
 }

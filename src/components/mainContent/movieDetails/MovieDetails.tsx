@@ -38,6 +38,21 @@ export default function MovieDetails({ movieData }: MovieDetailsProps) {
   const [countdown, setCountdown] = useState(0);
   const [startCountdown, setStartCountdown] = useState(false);
 
+  useEffect(() => {
+    const savedStates = localStorage.getItem(localStorageKey);
+    if (savedStates) {
+      setButtonStates(JSON.parse(savedStates));
+    }
+    const handleBeforeUnload = () => {
+      localStorage.removeItem(localStorageKey);
+    };
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, [localStorageKey]);
+
   const handleButtonClick = (index: number) => {
     const updatedStates = [...buttonStates];
     updatedStates[index] = true;
