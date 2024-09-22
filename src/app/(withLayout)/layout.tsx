@@ -1,33 +1,29 @@
 "use client";
 import Sidebar from "@/components/sidebar/Sidebar";
+import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 
-const useFacebookInAppBrowser = () => {
-  const [isInAppBrowser, setIsInAppBrowser] = useState(false);
-
+function useFacebookInAppBrowser() {
+  const [isFacebookBrowser, setIsFacebookBrowser] = useState(false);
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const userAgent = navigator.userAgent || navigator.vendor;
-
-      // Detect if the user is inside the Facebook, Instagram, or any in-app browser
-      if (
-        userAgent.includes("FBAN") ||
-        userAgent.includes("FBAV") ||
-        userAgent.includes("Instagram")
-      ) {
-        setIsInAppBrowser(true);
+      const ua = navigator.userAgent || navigator.vendor;
+      if (ua.indexOf("FBAN") > -1 || ua.indexOf("FBAV") > -1) {
+        setIsFacebookBrowser(true);
       }
     }
   }, []);
-
-  return isInAppBrowser;
-};
+  return isFacebookBrowser;
+}
 export default function WithLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   const isFacebookBrowser = useFacebookInAppBrowser();
+  const handleOpenInBrowser = () => {
+    window.open(window.location.href, "_system");
+  };
   return (
     <section>
       {isFacebookBrowser ? (
@@ -44,14 +40,7 @@ export default function WithLayout({
             For the best experience,{" "}
             <b>click here to open in your default browser</b>.
           </p>
-          <a
-            href={window.location.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-blue-700 underline bg-white px-2 py-1 rounded"
-          >
-            Open in Default Browser
-          </a>
+          <Button onClick={handleOpenInBrowser}>Open in Default Browser</Button>
         </div>
       ) : (
         <div className="flex">
