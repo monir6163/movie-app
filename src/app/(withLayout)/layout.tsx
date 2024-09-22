@@ -1,12 +1,13 @@
 "use client";
 import Sidebar from "@/components/sidebar/Sidebar";
 import { useEffect, useState } from "react";
+
 const useFacebookInAppBrowser = () => {
   const [isFacebookBrowser, setIsFacebookBrowser] = useState(false);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+      const userAgent = navigator.userAgent || navigator.vendor;
       if (userAgent.includes("FBAN") || userAgent.includes("FBAV")) {
         setIsFacebookBrowser(true);
       }
@@ -25,7 +26,7 @@ export default function WithLayout({
     <section>
       {isFacebookBrowser ? (
         <div className="open-browser-banner">
-          <p>You're viewing this site in Facebook's in-app browser.</p>
+          <p>You are viewing this site in Facebook in-app browser.</p>
           <a href={window.location.href} target="_blank">
             Open in Default Browser
           </a>
