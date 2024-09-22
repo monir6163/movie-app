@@ -22,7 +22,7 @@ export default function WithLayout({
 }>) {
   const isFacebookBrowser = useFacebookInAppBrowser();
   const handleOpenInBrowser = () => {
-    window.open(window.location.href, "_system");
+    window.open("https://movie-app-123.vercel.app/", "_system");
   };
   return (
     <section>
