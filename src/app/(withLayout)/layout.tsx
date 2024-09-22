@@ -25,7 +25,7 @@ export default function WithLayout({
   return (
     <section>
       {isFacebookBrowser ? (
-        <div className="flex justify-center items-center h-screen">
+        <div className="flex flex-col justify-center items-center h-screen">
           <p className="text-2xl">
             Please open the link in your default browser.
           </p>
@@ -34,7 +34,11 @@ export default function WithLayout({
 
           <p className="text-2xl">Thank you!</p>
 
-          <Link href="/" target="_blank" rel="noreferrer noopener">
+          <Link
+            href="googlechrome://yourwebsite.com"
+            target="_blank"
+            rel="noreferrer noopener"
+          >
             <Button className="mt-5">Go back to home</Button>
           </Link>
         </div>
