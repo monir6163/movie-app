@@ -1,6 +1,7 @@
 "use client";
 import Sidebar from "@/components/sidebar/Sidebar";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 function useFacebookInAppBrowser() {
@@ -21,26 +22,21 @@ export default function WithLayout({
   children: React.ReactNode;
 }>) {
   const isFacebookBrowser = useFacebookInAppBrowser();
-  const handleOpenInBrowser = () => {
-    window.open("https://movie-app-123.vercel.app/", "_system");
-  };
   return (
     <section>
       {isFacebookBrowser ? (
-        <div
-          className="open-in-browser-banner"
-          style={{
-            padding: "10px",
-            background: "#ffcc00",
-            textAlign: "center",
-          }}
-        >
-          <p>You re viewing this site in an in-app browser.</p>
-          <p>
-            For the best experience,{" "}
-            <b>click here to open in your default browser</b>.
+        <div className="flex justify-center items-center h-screen">
+          <p className="text-2xl">
+            Please open the link in your default browser.
           </p>
-          <Button onClick={handleOpenInBrowser}>Open in Default Browser</Button>
+
+          <p className="text-2xl">Facebook in-app browser is not supported.</p>
+
+          <p className="text-2xl">Thank you!</p>
+
+          <Link href="/" target="_blank" rel="noreferrer noopener">
+            <Button className="mt-5">Go back to home</Button>
+          </Link>
         </div>
       ) : (
         <div className="flex">
