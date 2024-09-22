@@ -19,7 +19,6 @@ function useFacebookInAppBrowser() {
 const handleCopyCurrentUrl = () => {
   if (typeof window !== "undefined") {
     navigator.clipboard.writeText(window.location.href);
-    alert("Link copied to clipboard!");
   }
 };
 
@@ -34,15 +33,13 @@ export default function WithLayout({
       {isFacebookBrowser ? (
         <div className="flex flex-col text-wrap text-center justify-center items-center h-screen">
           <div className="border p-2">
-            <p className="text-2xl">
-              Please open the link in your default browser.
+            <p className="text-xl">
+              Please open the link in your default browser (Like: Chrome)
             </p>
 
-            <p className="text-2xl">
-              Facebook in-app browser is not supported.
-            </p>
+            <p className="text-xl">Facebook in-app browser is not supported.</p>
 
-            <p className="text-2xl">Thank you!</p>
+            <p className="text-xl">Thank you!</p>
             <Button onClick={handleCopyCurrentUrl} className="mt-5">
               Copy Link
             </Button>
